@@ -1,0 +1,9 @@
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\src\commonMain\kotlin\BAND\apk\Models.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\src\commonMain\kotlin\BAND\apk\ChatViewModel.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\build\generated\compose\resourceGenerator\kotlin\commonResClass\band\composeapp\generated\resources\Res.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\src\commonMain\kotlin\BAND\apk\App.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\src\desktopMain\kotlin\Main.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\src\desktopMain\kotlin\BAND\apk\UserPreferences.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\build\generated\compose\resourceGenerator\kotlin\desktopMainResourceCollectors\band\composeapp\generated\resources\ActualResourceCollectors.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\src\commonMain\kotlin\BAND\apk\UserPreferences.kt
+C:\Users\happy\AndroidStudioProjects\BAND\composeApp\build\generated\compose\resourceGenerator\kotlin\commonMainResourceCollectors\band\composeapp\generated\resources\ExpectResourceCollectors.kt

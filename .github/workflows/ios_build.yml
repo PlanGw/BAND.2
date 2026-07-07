@@ -1,0 +1,32 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v3
+
+    - name: Build iOS Framework
+      run: ./gradlew :composeApp:assembleComposeAppReleaseFramework
+      
+    - name: Upload Framework
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-framework
+        path: composeApp/build/fat-framework/release/ComposeApp.framework

@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "BAND.apk.composeApp-debug-50:/drawable_ic_launcher_background.xml.flat",
+        "source": "BAND.apk.composeApp-androidMain-52:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "BAND.apk.composeApp-debug-50:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "BAND.apk.composeApp-androidMain-52:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "BAND.apk.composeApp-debug-50:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "BAND.apk.composeApp-androidMain-52:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "BAND.apk.composeApp-debug-50:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "BAND.apk.composeApp-androidMain-52:/mipmap-anydpi-v26/ic_launcher.xml"
+    }
+]

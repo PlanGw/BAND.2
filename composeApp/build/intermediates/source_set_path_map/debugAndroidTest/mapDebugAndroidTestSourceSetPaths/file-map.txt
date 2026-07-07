@@ -1,0 +1,4 @@
+BAND.apk.test.composeApp-androidTest-0 C:\Users\happy\AndroidStudioProjects\BAND\composeApp\build\generated\res\resValues\androidTest\debug
+BAND.apk.test.composeApp-mergeDebugAndroidTestResources-1 C:\Users\happy\AndroidStudioProjects\BAND\composeApp\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+BAND.apk.test.composeApp-mergeDebugAndroidTestResources-2 C:\Users\happy\AndroidStudioProjects\BAND\composeApp\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+BAND.apk.test.composeApp-debugAndroidTest-3 C:\Users\happy\AndroidStudioProjects\BAND\composeApp\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

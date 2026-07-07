@@ -1,0 +1,4 @@
+#Mon Jul 06 20:11:06 GMT-08:00 2026
+base.0=C\:\\Users\\happy\\AndroidStudioProjects\\BAND\\composeApp\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+path.0=0/classes.dex
+renamed.0=classes.dex

@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "BAND.apk.composeApp-mergeDebugResources-48:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\happy\\.gradle\\caches\\8.11.1\\transforms\\5e238f0a0451c6ff52c8acc4cc24aed9\\transformed\\jetified-material3-release\\res\\values-v30\\values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

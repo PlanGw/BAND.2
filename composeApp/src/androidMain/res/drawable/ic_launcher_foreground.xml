@@ -1,0 +1,44 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1000"
+    android:viewportHeight="1000">
+
+    <!-- Purple bar -->
+    <path
+        android:fillColor="#BF00FF"
+        android:pathData="M100,500h800v250h-800z" />
+
+    <!-- BAND Text (White) -->
+    <!-- B -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M220,550h60v150h-60z M280,550c30,0 50,15 50,37.5s-20,37.5 -50,37.5z M280,625c30,0 50,15 50,37.5s-20,37.5 -50,37.5z" />
+    <!-- A -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M420,550l50,150h-40l-10-30h-60l-10,30h-40z M410,580l20,60h-40z" />
+    <!-- N -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M550,550h30l60,100v-100h30v150h-30l-60-100v100h-30z" />
+    <!-- D -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M780,550h50c50,0 80,35 80,75s-30,75 -80,75h-50z M810,580v90h20c30,0 50,-20 50,-45s-20,-45 -50,-45z" />
+
+    <!-- Four People -->
+    <!-- Person 1 -->
+    <path android:fillColor="#BF00FF" android:pathData="M150,250a50,50 0,1 1,100 0a50,50 0,1 1,-100 0z M120,450v-50l80,-30l80,30v50z" />
+    <!-- Person 2 -->
+    <path android:fillColor="#BF00FF" android:pathData="M350,250a50,50 0,1 1,100 0a50,50 0,1 1,-100 0z M320,450v-50l80,-30l80,30v50z" />
+    <!-- Person 3 -->
+    <path android:fillColor="#BF00FF" android:pathData="M550,250a50,50 0,1 1,100 0a50,50 0,1 1,-100 0z M520,450v-50l80,-30l80,30v50z" />
+    <!-- Person 4 -->
+    <path android:fillColor="#BF00FF" android:pathData="M750,250a50,50 0,1 1,100 0a50,50 0,1 1,-100 0z M720,450v-50l80,-30l80,30v50z" />
+
+    <!-- Accent Lines -->
+    <path android:fillColor="#BF00FF" android:pathData="M200,800h600v30h-600z" />
+    <path android:fillColor="#BF00FF" android:pathData="M300,880h400v10h-400z" />
+
+</vector>
