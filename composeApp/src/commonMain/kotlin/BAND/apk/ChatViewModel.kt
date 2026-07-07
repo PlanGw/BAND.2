@@ -166,6 +166,34 @@ class ChatViewModel(private val userPreferences: UserPreferences) : ViewModel() 
         _messages.clear()
     }
 
+    fun createGroupDM(name: String, participantIds: List<String>) {
+        val user = _currentUser.value ?: return
+        val finalParticipants = participantIds.toMutableList()
+        if (!finalParticipants.contains(user.id)) finalParticipants.add(user.id)
+        
+        val newGroup = GroupDM(
+            id = "",
+            name = if (name.isBlank()) null else name,
+            participantIds = finalParticipants,
+            moderatorIds = listOf(user.id)
+        )
+        viewModelScope.launch {
+            try {
+                val response = client.post("/groups") {
+                    contentType(ContentType.Application.Json)
+                    setBody(newGroup)
+                }
+                if (response.status == HttpStatusCode.OK) {
+                    val group: GroupDM = response.body()
+                    _groupDMs.add(group)
+                    selectGroupDM(group)
+                }
+            } catch (e: Exception) {
+                println("Group creation failed: ${e.message}")
+            }
+        }
+    }
+
     fun sendMessage(content: String, type: MessageType = MessageType.TEXT, fileName: String? = null) {
         val user = _currentUser.value ?: return
         val activeGroup = _activeGroupDM.value ?: return
@@ -191,18 +219,94 @@ class ChatViewModel(private val userPreferences: UserPreferences) : ViewModel() 
     fun updateProfile(bio: String, avatarUrl: String?, bannerColor: Color, pronouns: String, messageColor: Color = Color.White) {
         val user = _currentUser.value ?: return
         val updated = user.copy(bio = bio, avatarUrl = avatarUrl, bannerColorArgb = bannerColor.toArgb(), pronouns = pronouns, messageColorArgb = messageColor.toArgb())
-        _currentUser.value = updated
-        // In a real app, you would send this to the server via POST /profile
+        viewModelScope.launch {
+            try {
+                val response = client.patch("/users/${user.id}") {
+                    contentType(ContentType.Application.Json)
+                    setBody(updated)
+                }
+                if (response.status == HttpStatusCode.OK) {
+                    _currentUser.value = response.body()
+                }
+            } catch (e: Exception) {
+                println("Profile update failed: ${e.message}")
+            }
+        }
     }
 
-    fun toggleFriend(userId: String) {}
-    fun timeoutUser(userId: String) {}
-    fun removeUserFromGroup(groupId: String, userId: String) {}
-    fun banUser(userId: String) {}
-    fun giveAdmin(userId: String) {}
-    fun addCustomTag(userId: String, label: String, color: Color) {}
-    fun addChangelog(title: String, content: String) {}
-    fun createGroupDM(name: String, participantIds: List<String>) {}
+    fun toggleFriend(targetUserId: String) {
+        val user = _currentUser.value ?: return
+        val updatedFriends = user.friendIds.toMutableList()
+        if (updatedFriends.contains(targetUserId)) updatedFriends.remove(targetUserId)
+        else updatedFriends.add(targetUserId)
+        
+        val updated = user.copy(friendIds = updatedFriends)
+        viewModelScope.launch {
+            try {
+                client.patch("/users/${user.id}") {
+                    contentType(ContentType.Application.Json)
+                    setBody(updated)
+                }
+            } catch (e: Exception) {}
+        }
+    }
+
+    fun timeoutUser(userId: String) {
+        val target = _users.find { it.id == userId } ?: return
+        val updated = target.copy(isTimedOut = !target.isTimedOut)
+        viewModelScope.launch {
+            try {
+                client.patch("/users/$userId") {
+                    contentType(ContentType.Application.Json)
+                    setBody(updated)
+                }
+            } catch (e: Exception) {}
+        }
+    }
+
+    fun banUser(userId: String) {
+        val target = _users.find { it.id == userId } ?: return
+        val updated = target.copy(isBanned = !target.isBanned)
+        viewModelScope.launch {
+            try {
+                client.patch("/users/$userId") {
+                    contentType(ContentType.Application.Json)
+                    setBody(updated)
+                }
+            } catch (e: Exception) {}
+        }
+    }
+
+    fun giveAdmin(userId: String) {
+        val target = _users.find { it.id == userId } ?: return
+        val updated = target.copy(isAdmin = true, tag = "Admin", tagColorArgb = Color.Red.toArgb())
+        viewModelScope.launch {
+            try {
+                client.patch("/users/$userId") {
+                    contentType(ContentType.Application.Json)
+                    setBody(updated)
+                }
+            } catch (e: Exception) {}
+        }
+    }
+
+    fun addCustomTag(userId: String, label: String, color: Color) {
+        val target = _users.find { it.id == userId } ?: return
+        val newTag = CustomTag(label, color.toArgb())
+        val updated = target.copy(customTags = target.customTags + newTag)
+        viewModelScope.launch {
+            try {
+                client.patch("/users/$userId") {
+                    contentType(ContentType.Application.Json)
+                    setBody(updated)
+                }
+            } catch (e: Exception) {}
+        }
+    }
+
+    fun addChangelog(title: String, content: String) {
+        // ... Similar POST logic for changelogs if added to server
+    }
 
     fun updateUISettings(newSettings: UISettings) { _uiSettings.value = newSettings }
     fun startCall(type: String) { _activeCall.value = type }
@@ -210,4 +314,5 @@ class ChatViewModel(private val userPreferences: UserPreferences) : ViewModel() 
     fun getUserById(id: String): User? = _users.find { it.id == id }
     fun getOtherUsers(): List<User> = _users.filter { it.id != _currentUser.value?.id }
     fun getParticipantNames(group: GroupDM): String = _users.filter { group.participantIds.contains(it.id) }.joinToString(", ") { it.name }
+    fun removeUserFromGroup(groupId: String, userId: String) {}
 }

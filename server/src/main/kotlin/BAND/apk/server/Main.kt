@@ -75,6 +75,15 @@ val sessions = ConcurrentHashMap<String, DefaultWebSocketServerSession>()
 
 fun main() {
     loadData()
+    // Add premade users if empty
+    if (users.isEmpty()) {
+        val p1 = User(id = "1", name = "PlanA", password = "PlanA_real.tm", tag = "Owner", tagColorArgb = -60013, isAdmin = true, bio = "Owner of BAND")
+        val p2 = User(id = "2", name = "Thor", password = "Th0r_OdinSon_77!#", tag = "Co-Owner", tagColorArgb = -11013497, isAdmin = true, bio = "Co-Owner of BAND")
+        users[p1.id] = p1
+        users[p2.id] = p2
+        saveData()
+    }
+
     embeddedServer(Netty, port = 8080) {
         install(ContentNegotiation) { json() }
         install(WebSockets) {
@@ -105,6 +114,37 @@ fun main() {
             
             get("/users") { call.respond(users.values.toList()) }
             get("/groups") { call.respond(groups.values.toList()) }
+
+            post("/groups") {
+                val group = call.receive<GroupDM>()
+                val newGroup = group.copy(id = "group_${System.currentTimeMillis()}")
+                groups[newGroup.id] = newGroup
+                saveData()
+                call.respond(newGroup)
+            }
+
+            patch("/users/{id}") {
+                val id = call.parameters["id"] ?: return@patch
+                val updates = call.receive<User>()
+                val existing = users[id] ?: return@patch
+                val updated = existing.copy(
+                    bio = updates.bio,
+                    avatarUrl = updates.avatarUrl,
+                    bannerColorArgb = updates.bannerColorArgb,
+                    pronouns = updates.pronouns,
+                    messageColorArgb = updates.messageColorArgb,
+                    isAdmin = updates.isAdmin,
+                    tag = updates.tag,
+                    tagColorArgb = updates.tagColorArgb,
+                    customTags = updates.customTags,
+                    isTimedOut = updates.isTimedOut,
+                    isBanned = updates.isBanned,
+                    friendIds = updates.friendIds
+                )
+                users[id] = updated
+                saveData()
+                call.respond(updated)
+            }
             
             webSocket("/chat/{userId}") {
                 val userId = call.parameters["userId"] ?: return@webSocket
@@ -134,9 +174,13 @@ fun main() {
 }
 
 fun loadData() {
-    if (usersFile.exists()) users.putAll(Json.decodeFromString<List<User>>(usersFile.readText()).associateBy { it.id })
-    if (groupsFile.exists()) groups.putAll(Json.decodeFromString<List<GroupDM>>(groupsFile.readText()).associateBy { it.id })
-    if (messagesFile.exists()) messages.addAll(Json.decodeFromString<List<Message>>(messagesFile.readText()))
+    try {
+        if (usersFile.exists()) users.putAll(Json.decodeFromString<List<User>>(usersFile.readText()).associateBy { it.id })
+        if (groupsFile.exists()) groups.putAll(Json.decodeFromString<List<GroupDM>>(groupsFile.readText()).associateBy { it.id })
+        if (messagesFile.exists()) messages.addAll(Json.decodeFromString<List<Message>>(messagesFile.readText()))
+    } catch (e: Exception) {
+        println("Error loading data: ${e.message}")
+    }
 }
 
 fun saveData() {
